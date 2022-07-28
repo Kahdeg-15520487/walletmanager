@@ -1,0 +1,59 @@
+﻿@page "/"
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@inject HttpClient Http
+
+<PageTitle>Liquors</PageTitle>
+
+<h1>Liquors</h1>
+
+@if (Wallets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Group</th>
+                <th>Type</th>
+                <th>Brand</th>
+                <th>Name</th>
+                <th>Capacity (ml)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Wallets)
+            {
+                <tr>
+                    <td>@s.Group</td>
+                    <td>@s.Type</td>
+                    <td>@s.Brand</td>
+                    <td>@s.Name</td>
+                    <td>@s.Capacity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private WalletResponseDto[]? Wallets;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Wallets = (await Http.GetFromJsonAsync<WalletResponseDto[]>("api/Wallet")).OrderBy(s=>s.Group).ThenBy(s=>s.Type).ThenBy(s=>s.Brand).ThenBy(s=>s.Name).ToArray();
+    }
+
+    public class WalletResponseDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Brand { get; set; }
+        public string Group { get; set; }
+        public float Capacity { get; set; }
+        public string Note { get; set; }
+    }
+}

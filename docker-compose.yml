@@ -1,0 +1,64 @@
+version: '3.4'
+
+services:
+  api:
+    image: walletmanagement-api:latest
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    depends_on:
+      - "db"
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - wanetwork
+  
+  ui:
+    image: walletmanagement-ui:latest
+    build:
+      context: .
+      dockerfile: UI/Dockerfile
+    depends_on:
+      - "api"
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - wanetwork
+  
+  proxy:
+    image: proxy:latest
+    build:
+      context: .
+      dockerfile: proxy/Dockerfile
+    depends_on:
+      - "ui"
+    environment:
+      - VIRTUAL_HOST=kahdeg.ddns.net
+      - LETSENCRYPT_HOST=kahdeg.ddns.net
+    networks:
+      - wanetwork
+    ports:
+      - "8080:80"
+  
+  db:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "wapostgres"
+      POSTGRES_DB: "walletmanagement"
+    networks:
+      - wanetwork
+    ports:
+      - "5432"
+
+volumes:
+  db_volume:
+  
+networks:
+  wanetwork:
+         
+    
+     
