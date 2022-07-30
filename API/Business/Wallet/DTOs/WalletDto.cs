@@ -6,5 +6,7 @@
         public string Name { get; set; }
         public float Balance { get; set; }
         public string Note { get; set; }
+
+        public BalanceChangeDto[] BalanceChanges { get; set; }
     }
 }

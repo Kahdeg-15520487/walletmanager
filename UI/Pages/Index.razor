@@ -14,6 +14,7 @@
 }
 else
 {
+    <h3>Totals: @Totals()</h3>
     @if (Wallets.Length == 0)
     {
         <p>You don't have any wallet!</p>
@@ -53,6 +54,8 @@ else
     {
         Wallets = (await Http.GetFromJsonAsync<WalletResponseDto[]>("api/wallet")).ToArray();
     }
+
+    private float Totals() => Wallets.Sum(w => w.Balance);
 
     public class WalletResponseDto
     {

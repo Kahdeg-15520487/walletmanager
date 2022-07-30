@@ -33,6 +33,13 @@
                 Type = dto.ChangeType,
             };
             var e = await context.BalanceChanges.AddAsync(balance);
+            var wallet = await context.Wallets.FindAsync(dto.WalletId);
+            if (wallet == null)
+            {
+                return null;
+            }
+            wallet.Balance = dto.ChangeType ? wallet.Balance + dto.Amount : wallet.Balance - dto.Amount;
+
             if (await context.SaveChangesAsync() > 0)
             {
                 return mapper.Map<BalanceChangeDto>(e.Entity);
