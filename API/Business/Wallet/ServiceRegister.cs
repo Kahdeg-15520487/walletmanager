@@ -10,6 +10,7 @@
         public static void RegisterWalletServices(this IServiceCollection services)
         {
             services.AddScoped<IWalletService, WalletService>();
+            services.AddScoped<IBalanceService, BalanceService>();
         }
     }
 }

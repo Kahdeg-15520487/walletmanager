@@ -1,5 +1,6 @@
 namespace API
 {
+    using API.Business.User;
     using API.Business.Wallet;
     using API.DAL;
 
@@ -49,11 +50,14 @@ namespace API
                     .AllowAnyHeader());
             });
 
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddDbContext<WalletManagerDataContext>();
             builder.Services.AddControllers();
             builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.RegisterWalletServices();
+            builder.Services.RegisterUserServices();
 
             var app = builder.Build();
 

@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="Business\User\Services\Implementations\**" />
+    <Compile Remove="DAL\Resource\**" />
     <Content Remove="Business\User\Services\Implementations\**" />
+    <Content Remove="DAL\Resource\**" />
     <EmbeddedResource Remove="Business\User\Services\Implementations\**" />
+    <EmbeddedResource Remove="DAL\Resource\**" />
     <None Remove="Business\User\Services\Implementations\**" />
+    <None Remove="DAL\Resource\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +29,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DAL\Resource\" />
   </ItemGroup>
 
 </Project>

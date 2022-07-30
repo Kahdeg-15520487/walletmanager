@@ -36,6 +36,9 @@ namespace API.Business.Wallet.Mapper
         {
             this.CreateMap<DAL.Models.BalanceChange, BalanceChangeDto>()
                 .ForMember(
+                            dto => dto.Id,
+                            map => map.MapFrom(src => src.Id))
+                .ForMember(
                             dto => dto.WalletId,
                             map => map.MapFrom(src => src.WalletId))
                 .ForMember(

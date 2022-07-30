@@ -2,6 +2,7 @@
 {
     public class BalanceChangeDto
     {
+        public Guid Id { get; set; }
         public Guid WalletId { get; set; }
         public bool ChangeType { get; set; }
         public float Amount { get; set; }

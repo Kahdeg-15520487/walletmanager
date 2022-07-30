@@ -1,11 +1,12 @@
 ﻿@page "/"
+@attribute [Authorize]
 @using Microsoft.Extensions.Configuration
-@inject IConfiguration Configuration
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject HttpClient Http
 
-<PageTitle>Liquors</PageTitle>
+<PageTitle>Wallets</PageTitle>
 
-<h1>Liquors</h1>
+<h1>Wallets</h1>
 
 @if (Wallets == null)
 {
@@ -13,47 +14,51 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Group</th>
-                <th>Type</th>
-                <th>Brand</th>
-                <th>Name</th>
-                <th>Capacity (ml)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var s in Wallets)
-            {
+    @if (Wallets.Length == 0)
+    {
+        <p>You don't have any wallet!</p>
+        <a href="createwallet">Create new Wallet</a>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@s.Group</td>
-                    <td>@s.Type</td>
-                    <td>@s.Brand</td>
-                    <td>@s.Name</td>
-                    <td>@s.Capacity</td>
+                    <th>Name</th>
+                    <th>Balance</th>
+                    <th>Note</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var s in Wallets)
+                {
+                    <tr>
+                        <td><a href="walletbalance/@s.Id">@s.Name</a></td>
+                        <td>@s.Balance</td>
+                        <td>@s.Note</td>
+                    </tr>
+                }
+                <tr>
+                    <td><a href="createwallet">Create new Wallet</a></td>
+                </tr>
+            </tbody>
+        </table>
+    }
 }
 
 @code {
-    private WalletResponseDto[]? Wallets;
+    private WalletResponseDto[] Wallets;
 
     protected override async Task OnInitializedAsync()
     {
-        Wallets = (await Http.GetFromJsonAsync<WalletResponseDto[]>("api/Wallet")).OrderBy(s=>s.Group).ThenBy(s=>s.Type).ThenBy(s=>s.Brand).ThenBy(s=>s.Name).ToArray();
+        Wallets = (await Http.GetFromJsonAsync<WalletResponseDto[]>("api/wallet")).ToArray();
     }
 
     public class WalletResponseDto
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
-        public string Brand { get; set; }
-        public string Group { get; set; }
-        public float Capacity { get; set; }
+        public float Balance { get; set; }
         public string Note { get; set; }
     }
 }

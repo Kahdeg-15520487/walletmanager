@@ -20,11 +20,26 @@
             this.mapper = mapper;
         }
 
-        public WalletDto Create(WalletDto dto)
+        public async Task<WalletDto> Create(WalletCreateRequestDto dto, string userIdpId)
         {
-            var e = context.Wallets.Add(this.mapper.Map<DAL.Models.Wallet>(dto));
-            context.SaveChanges();
-            return mapper.Map<WalletDto>(e.Entity);
+            var user = context.Users.FirstOrDefault(u => u.IdpId.Equals(userIdpId));
+            if (user == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var wallet = new DAL.Models.Wallet()
+            {
+                Name = dto.Name,
+                Note = dto.Note,
+                UserId = user.Id,
+            };
+            var e = await context.Wallets.AddAsync(wallet);
+            if (await context.SaveChangesAsync() > 0)
+            {
+                return mapper.Map<WalletDto>(e.Entity);
+            }
+            return null;
         }
 
         public bool Delete(Guid id)

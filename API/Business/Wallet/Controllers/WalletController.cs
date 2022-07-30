@@ -29,5 +29,11 @@ namespace API.Business.Wallet.Controllers
         {
             return WalletService.GetById(id);
         }
+
+        [HttpPost]
+        public async Task<WalletDto> CreateWallet([FromBody] WalletCreateRequestDto dto)
+        {
+            return await WalletService.Create(dto, HttpContext.GetUserIdpId());
+        }
     }
 }

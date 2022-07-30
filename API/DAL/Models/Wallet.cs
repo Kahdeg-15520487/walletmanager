@@ -7,6 +7,7 @@
         public string Name { get; set; }
         public float Balance { get; set; }
         public string Note { get; set; }
+        public ICollection<BalanceChange> BalanceChanges { get; set; }
 
         public Guid UserId { get; set; }
     }

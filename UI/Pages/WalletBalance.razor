@@ -1,0 +1,131 @@
+﻿@page "/walletbalance/{walletId:guid}"
+@attribute [Authorize]
+@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject HttpClient Http
+
+<PageTitle>Wallet Balances</PageTitle>
+
+<h1>Wallet Balances</h1>
+
+@if (Balances == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <colgroup>
+            <col span="1" style="width: 10%;">
+            <col span="1" style="width: 50%;">
+            <col span="1" style="width: 25%;">
+            <col span="1" style="width: 15%;">
+        </colgroup>
+
+        <thead>
+            <tr>
+                <th></th>
+                <th>Amount</th>
+                <th>Reason</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var b in Balances)
+            {
+                <tr>
+                    <td>@(b.ChangeType?"+" :"-")</td>
+                    <td>@b.Amount</td>
+                    <td>@b.Reason</td>
+                    <td>@b.Date.ToLocalTime().ToShortDateString()</td>
+                    <td><button onclick="@(()=>DeleteBalance(b.Id))">X</button></td>
+                </tr>
+            }
+            <tr>
+                <td><input type="checkbox" value="@newBalance.ChangeType" /></td>
+                <td>
+                    @*<BlazoredTypeahead SearchMethod="@SuggestAmount"
+                        ConvertMethod="@ConvertMethod"
+                        @bind-Value="@newBalance.Amount"
+                        @bind-Value:format="F99"
+                        Debounce="100">
+                        <SelectedTemplate>
+                        @context
+                        </SelectedTemplate>
+                        <ResultTemplate>
+                        @context
+                        </ResultTemplate>
+                        </BlazoredTypeahead>*@
+                    <input type="number" value="@newBalance.Amount" />
+                </td>
+                <td><input type="text" value="@newBalance.Reason" /></td>
+                <td>@DateTime.Now.ToShortDateString()</td>
+            </tr>
+            <tr>
+                <td><button onclick="@HandleValidSubmit">Submit</button></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public Guid walletId { get; set; }
+
+    private BalanceChangeModel[] Balances;
+    private BalanceChangeModel newBalance = new();
+    //private double newBalanceAmount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Balances = (await Http.GetFromJsonAsync<BalanceChangeModel[]>($"api/wallet/{walletId}/balance")).ToArray();
+    }
+
+    private async void HandleValidSubmit()
+    {
+        newBalance.Date = DateTime.Now;
+        await Http.PostAsJsonAsync<BalanceChangeModel>($"api/wallet/{walletId}/balance", newBalance);
+        Balances = (await Http.GetFromJsonAsync<BalanceChangeModel[]>($"api/wallet/{walletId}/balance")).ToArray();
+        StateHasChanged();
+    }
+
+    private async void DeleteBalance(Guid id)
+    {
+        await Http.DeleteAsync($"api/balance/{id}");
+        Balances = (await Http.GetFromJsonAsync<BalanceChangeModel[]>($"api/wallet/{walletId}/balance")).ToArray();
+        StateHasChanged();
+    }
+
+    private async Task<IEnumerable<string>> SuggestAmount(string input_amount)
+    {
+        List<string> suggestions = new List<string>();
+
+        if (double.TryParse(input_amount, out var amount))
+        {
+            if (amount > 100000)
+            {
+                suggestions.Add((amount / 10).ToString("F99").TrimEnd('0').TrimEnd('.'));
+            }
+            suggestions.Add((amount * 10).ToString("F99").TrimEnd('0').TrimEnd('.'));
+            suggestions.Add((amount * 100).ToString("F99").TrimEnd('0').TrimEnd('.'));
+            suggestions.Add((amount * 1000).ToString("F99").TrimEnd('0').TrimEnd('.'));
+        }
+
+        return suggestions;
+    }
+
+    private double ConvertMethod(string input) => double.TryParse(input, out var f) ? f : 0d;
+
+    public class BalanceChangeModel
+    {
+        public Guid Id { get; set; }
+        public bool ChangeType { get; set; }
+        public double Amount { get; set; }
+        public string Reason { get; set; }
+        public DateTime Date { get; set; }
+    }
+}

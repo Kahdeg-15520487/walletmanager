@@ -14,14 +14,24 @@ namespace UI
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
-            //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
-            //                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
+            var serverUrl = builder.HostEnvironment.BaseAddress;
+            if (builder.HostEnvironment.IsDevelopment())
+            {
+                serverUrl = builder.Configuration["APIURL"];
+            }
 
-            builder.Services.AddHttpClient("ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-                            .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
-
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-                            .CreateClient("ServerAPI"));
+            builder.Services.AddScoped(sp =>
+            {
+                var configuredAuthorizationMessageHandler = sp.GetRequiredService<AuthorizationMessageHandler>()
+                    .ConfigureHandler(
+                        authorizedUrls: new[] { serverUrl },
+                        scopes: new string[] { });
+                configuredAuthorizationMessageHandler.InnerHandler = new HttpClientHandler();
+                return new HttpClient(configuredAuthorizationMessageHandler)
+                {
+                    BaseAddress = new Uri(serverUrl)
+                };
+            });
 
             builder.Services.AddOidcAuthentication(options =>
             {

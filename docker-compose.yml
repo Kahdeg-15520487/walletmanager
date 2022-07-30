@@ -52,7 +52,7 @@ services:
     networks:
       - wanetwork
     ports:
-      - "5432"
+      - "5432:5432"
 
 volumes:
   db_volume:

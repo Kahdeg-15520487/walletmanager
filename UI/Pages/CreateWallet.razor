@@ -1,0 +1,32 @@
+﻿@page "/createwallet"
+@using System.ComponentModel.DataAnnotations
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Register</h3>
+
+<EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText id="name" @bind-Value="model.Name"></InputText>
+    <InputText id="note" @bind-Value="model.Note"></InputText>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private WalletCreateModel model = new();
+
+    private async void HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync<WalletCreateModel>("api/wallet", model);
+        NavigationManager.NavigateTo("/");
+    }
+
+    class WalletCreateModel
+    {
+        [Required]
+        public string Name { get; set; }
+        public string Note { get; set; }
+    }
+}

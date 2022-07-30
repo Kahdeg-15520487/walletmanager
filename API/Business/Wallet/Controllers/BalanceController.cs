@@ -6,7 +6,7 @@ namespace API.Business.Wallet.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api")]
     public class BalanceController : ControllerBase
     {
         private readonly IBalanceService balanceService;
@@ -16,28 +16,23 @@ namespace API.Business.Wallet.Controllers
             this.balanceService = balanceService;
         }
 
-        [HttpGet]
-        public IEnumerable<BalanceChangeDto> Get()
+        [HttpGet("wallet/{walletId}/balance")]
+        public IEnumerable<BalanceChangeDto> Get([FromRoute] Guid walletId)
         {
-            return balanceService.GetAll();
+            return balanceService.GetByWallet(walletId);
         }
 
-        [HttpGet("{id}")]
-        public BalanceChangeDto GetById(Guid id)
+        [HttpPost("wallet/{walletId}/balance")]
+        public async Task<BalanceChangeDto> Add([FromRoute] Guid walletId, [FromBody] BalanceChangeCreateRequestDto dto)
         {
-            return balanceService.GetById(id);
+            dto.WalletId = walletId;
+            return await balanceService.Create(dto);
         }
 
-        [HttpPost]
-        public BalanceChangeDto Add([FromBody] BalanceChangeDto dto)
+        [HttpDelete("balance/{balanceId}")]
+        public ActionResult Delete(Guid balanceId)
         {
-            return balanceService.Create(dto);
-        }
-
-        [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
-        {
-            return balanceService.Delete(id) ? this.Ok() : this.NotFound();
+            return balanceService.Delete(balanceId) ? this.Ok() : this.NotFound();
         }
     }
 }

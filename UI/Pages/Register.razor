@@ -1,0 +1,30 @@
+﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Register</h3>
+
+<EditForm Model="@userModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText id="name" @bind-Value="userModel.UserName"></InputText>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private UserRegisterModel userModel = new();
+
+    private async void HandleValidSubmit()
+    {
+        await Http.PostAsJsonAsync<UserRegisterModel>("api/user", userModel);
+        NavigationManager.NavigateTo("/");
+    }
+
+    class UserRegisterModel
+    {
+        [Required]
+        public string UserName { get; set; }
+    }
+}

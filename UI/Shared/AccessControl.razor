@@ -3,21 +3,42 @@
 
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
+@inject HttpClient Http;
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity.Name!
-        <a href="#" @onclick="BeginSignOut">Log out</a>
+        @if (User == null)
+        {
+            <a href="register">Register</a>
+        }
+        else
+        {
+            <p>Hello, @User.UserName</p>
+            <a href="profile">Profile</a>
+            <a href="#" @onclick="BeginSignOut">Log out</a>
+        }
     </Authorized>
     <NotAuthorized>
         <a href="authentication/login">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
 
-@code{
+@code {
+    private UserProfileModel User = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        User = (await Http.GetFromJsonAsync<UserProfileModel>("api/user"));
+    }
+
     private async Task BeginSignOut(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();
         Navigation.NavigateTo("authentication/logout");
+    }
+
+    class UserProfileModel
+    {
+        public string UserName { get; set; }
     }
 }

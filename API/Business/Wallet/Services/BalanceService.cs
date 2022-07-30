@@ -9,6 +9,7 @@
     using System;
     using System.Collections.Generic;
     using API.DAL.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class BalanceService : IBalanceService
     {
@@ -21,27 +22,33 @@
             this.mapper = mapper;
         }
 
-        public BalanceChangeDto Create(BalanceChangeDto dto)
+        public async Task<BalanceChangeDto> Create(BalanceChangeCreateRequestDto dto)
         {
-            var e = context.BalanceChanges.Add(mapper.Map<BalanceChange>(dto));
-            context.SaveChanges();
-            return mapper.Map<BalanceChangeDto>(e.Entity);
+            var balance = new BalanceChange()
+            {
+                WalletId = dto.WalletId,
+                Amount = dto.Amount,
+                Date = DateTime.UtcNow,
+                Reason = dto.Reason,
+                Type = dto.ChangeType,
+            };
+            var e = await context.BalanceChanges.AddAsync(balance);
+            if (await context.SaveChangesAsync() > 0)
+            {
+                return mapper.Map<BalanceChangeDto>(e.Entity);
+            }
+            return null;
         }
 
-        public bool Delete(Guid id)
+        public bool Delete(Guid balanceId)
         {
-            context.BalanceChanges.Remove(context.BalanceChanges.First(x => x.Id == id));
+            context.BalanceChanges.Remove(context.BalanceChanges.First(x => x.Id == balanceId));
             return context.SaveChanges() != 0;
         }
 
-        public IEnumerable<BalanceChangeDto> GetAll()
+        public IEnumerable<BalanceChangeDto> GetByWallet(Guid walletId)
         {
-            return mapper.ProjectTo<BalanceChangeDto>(context.BalanceChanges);
-        }
-
-        public BalanceChangeDto GetById(Guid id)
-        {
-            return mapper.Map<BalanceChangeDto>(context.BalanceChanges.First(x => x.Id == id));
+            return mapper.ProjectTo<BalanceChangeDto>(context.BalanceChanges.Where(bc => bc.WalletId.Equals(walletId)));
         }
 
         public bool Update(BalanceChangeDto dto)
