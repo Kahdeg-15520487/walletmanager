@@ -22,7 +22,7 @@
 
         public async Task<WalletDto> Create(WalletCreateRequestDto dto, string userIdpId)
         {
-            var user = context.Users.FirstOrDefault(u => u.IdpId.Equals(userIdpId));
+            var user = context.Users.FirstOrDefault(u => u.IdpId == userIdpId);
             if (user == null)
             {
                 throw new InvalidOperationException();
@@ -48,14 +48,19 @@
             return context.SaveChanges() != 0;
         }
 
-        public IEnumerable<WalletDto> GetAll()
+        public WalletDto GetById(string userIdpId, Guid id)
         {
-            return this.mapper.ProjectTo<WalletDto>(context.Wallets);
+            return this.mapper.Map<WalletDto>(context.Wallets.First(s => s.Id == id));
         }
 
-        public WalletDto GetById(Guid id)
+        public IEnumerable<WalletDto> GetAllByUserIdpId(string userIdpId)
         {
-            return this.mapper.Map<WalletDto>(context.Wallets.First(s => s.Id.Equals(id)));
+            var user = context.Users.FirstOrDefault(u => u.IdpId == userIdpId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            return this.mapper.ProjectTo<WalletDto>(context.Wallets.Where(w => w.UserId == user.Id));
         }
 
         public bool Update(WalletDto dto)

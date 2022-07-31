@@ -21,13 +21,13 @@ namespace API.Business.Wallet.Controllers
         [HttpGet]
         public IEnumerable<WalletDto> Get()
         {
-            return WalletService.GetAll();
+            return WalletService.GetAllByUserIdpId(HttpContext.GetUserIdpId());
         }
 
         [HttpGet("{id}")]
         public WalletDto GetById(Guid id)
         {
-            return WalletService.GetById(id);
+            return WalletService.GetById(HttpContext.GetUserIdpId(), id);
         }
 
         [HttpPost]
