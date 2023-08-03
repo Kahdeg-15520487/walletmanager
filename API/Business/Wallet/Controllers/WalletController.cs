@@ -19,9 +19,20 @@ namespace API.Business.Wallet.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WalletDto> Get()
+        public ActionResult Get()
         {
-            return WalletService.GetAllByUserIdpId(HttpContext.GetUserIdpId());
+            try
+            {
+                return Ok(WalletService.GetAllByUserIdpId(HttpContext.GetUserIdpId()));
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]

@@ -43,7 +43,7 @@ else
                 </tr>
             }
             <tr>
-                <td><input type="checkbox" @bind="@newBalance.ChangeType" /></td>
+                <td><input type="checkbox" @bind="@newBalance.ChangeType" />@(newBalance.ChangeType ? "+" : "-")</td>
                 <td><input type="number" @bind="@newBalance.Amount" /></td>
                 <td><input type="text" @bind="@newBalance.Reason" /></td>
                 <td>@DateTime.Now.ToShortDateString()</td>

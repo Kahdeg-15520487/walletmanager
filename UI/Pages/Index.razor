@@ -3,6 +3,7 @@
 @using Microsoft.Extensions.Configuration
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject HttpClient Http
+@inject NavigationManager NavManager
 
 <PageTitle>Wallets</PageTitle>
 
@@ -52,7 +53,21 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Wallets = (await Http.GetFromJsonAsync<WalletResponseDto[]>("api/wallet")).ToArray();
+        try
+        {
+            Wallets = (await Http.GetFromJsonAsync<WalletResponseDto[]>("api/wallet")).ToArray();
+        }
+        catch (HttpRequestException ex)
+        {
+            switch (ex.StatusCode)
+            {
+                case System.Net.HttpStatusCode.NotFound:
+                    NavManager.NavigateTo("Register");
+                    break;
+                default:
+                    throw ex;
+            }
+        }
     }
 
     private float Totals() => Wallets.Sum(w => w.Balance);
