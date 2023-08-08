@@ -1,4 +1,6 @@
-﻿namespace API.Business.Wallet.Services
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace API.Business.Wallet.Services
 {
     using AutoMapper;
 
@@ -8,6 +10,7 @@
 
     using System;
     using System.Collections.Generic;
+    using API.DAL.Models;
 
     public class WalletService : IWalletService
     {
@@ -67,7 +70,11 @@
             {
                 throw new KeyNotFoundException();
             }
-            return this.mapper.Map<WalletDto>(context.Wallets.First(w => w.Id == id && w.UserId == user.Id));
+            var wallet = context.Wallets.First(w => w.Id == id && w.UserId == user.Id);
+            var walletDto = this.mapper.Map<WalletDto>(wallet);
+
+            walletDto.Balance = context.BalanceChanges.Where(bal => bal.WalletId == wallet.Id).Sum(bal => (bal.Type ? 1 : -1) * bal.Amount);
+            return walletDto;
         }
 
         public IEnumerable<WalletDto> GetAllByUserIdpId(string userIdpId)
@@ -77,7 +84,12 @@
             {
                 throw new KeyNotFoundException();
             }
-            return this.mapper.ProjectTo<WalletDto>(context.Wallets.Where(w => !w.IsHidden && w.UserId == user.Id));
+            return this.mapper.ProjectTo<WalletDto>(context.Wallets.Where(w => !w.IsHidden && w.UserId == user.Id).Include(w => w.BalanceChanges)).AsEnumerable().Select(w =>
+            {
+                w.Balance = w.BalanceChanges.Sum(bal => (bal.ChangeType ? 1 : -1) * bal.Amount);
+                w.BalanceChanges = null;
+                return w;
+            });
         }
 
         public bool Update(WalletDto dto)

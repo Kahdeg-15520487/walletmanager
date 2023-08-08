@@ -22,9 +22,14 @@
             this.mapper = mapper;
         }
 
-        public async Task<BalanceChangeDto> Create(BalanceChangeCreateRequestDto dto)
+        public async Task<BalanceChangeDto> Create(string userIdpId, BalanceChangeCreateRequestDto dto)
         {
-            var balance = new BalanceChange()
+            if (!await CheckValidRequest(userIdpId, dto.WalletId))
+            {
+                return null;
+            }
+
+            var newBalance = new BalanceChange()
             {
                 WalletId = dto.WalletId,
                 Amount = dto.Amount,
@@ -32,38 +37,60 @@
                 Reason = dto.Reason,
                 Type = dto.ChangeType,
             };
-            var e = await context.BalanceChanges.AddAsync(balance);
-            var wallet = await context.Wallets.FindAsync(dto.WalletId);
-            if (wallet == null)
-            {
-                return null;
-            }
-            wallet.Balance = dto.ChangeType ? wallet.Balance + dto.Amount : wallet.Balance - dto.Amount;
+            var changeResult = await context.BalanceChanges.AddAsync(newBalance);
 
             if (await context.SaveChangesAsync() > 0)
             {
-                return mapper.Map<BalanceChangeDto>(e.Entity);
+                return mapper.Map<BalanceChangeDto>(changeResult.Entity);
             }
             return null;
         }
 
-        public bool Delete(Guid balanceId)
+        public bool Delete(string userIdpId, Guid balanceId)
         {
             var bal = context.BalanceChanges.First(x => x.Id == balanceId);
             var wallet = context.Wallets.First(x => x.Id == bal.WalletId);
             context.BalanceChanges.Remove(bal);
-            wallet.Balance = wallet.Balance + (bal.Type ? -1 : 1) * bal.Amount;
             return context.SaveChanges() != 0;
         }
 
-        public IEnumerable<BalanceChangeDto> GetByWallet(Guid walletId)
+        public BalanceChangeDto GetBalanceChange(string userIdpId, Guid balanceId)
         {
+            return mapper.Map<BalanceChangeDto>(context.BalanceChanges.Find(balanceId));
+        }
+
+        public IEnumerable<BalanceChangeDto> GetByWallet(string userIdpId, Guid walletId)
+        {
+            if (!CheckValidRequest(userIdpId, walletId).Result)
+            {
+                return null;
+            }
+
             return mapper.ProjectTo<BalanceChangeDto>(context.BalanceChanges.Where(bc => bc.WalletId.Equals(walletId)));
         }
 
-        public bool Update(BalanceChangeDto dto)
+        public bool Update(string userIdpId, BalanceChangeDto dto)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task<bool> CheckValidRequest(string userIdpId, Guid walletId)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.IdpId == userIdpId);
+            if (user == null)
+            {
+                return false;
+            }
+            var wallet = await context.Wallets.FindAsync(walletId);
+            if (wallet == null)
+            {
+                return false;
+            }
+            if (wallet.UserId != user.Id)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

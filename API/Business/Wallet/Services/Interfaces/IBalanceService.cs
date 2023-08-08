@@ -4,9 +4,10 @@ namespace API.Business.Wallet.Services.Interfaces
 {
     public interface IBalanceService
     {
-        IEnumerable<BalanceChangeDto> GetByWallet(Guid walletId);
-        Task<BalanceChangeDto> Create(BalanceChangeCreateRequestDto dto);
-        bool Delete(Guid balanceChangeId);
-        bool Update(BalanceChangeDto dto);
+        BalanceChangeDto GetBalanceChange(string userIdpId, Guid balanceChangeId);
+        IEnumerable<BalanceChangeDto> GetByWallet(string userIdpId, Guid walletId);
+        Task<BalanceChangeDto> Create(string userIdpId, BalanceChangeCreateRequestDto dto);
+        bool Delete(string userIdpId, Guid balanceChangeId);
+        bool Update(string userIdpId, BalanceChangeDto dto);
     }
 }

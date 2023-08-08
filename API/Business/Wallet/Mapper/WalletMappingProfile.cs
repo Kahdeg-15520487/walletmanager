@@ -26,9 +26,6 @@ namespace API.Business.Wallet.Mapper
                             dto => dto.Note,
                             map => map.MapFrom(src => src.Note))
                 .ForMember(
-                            dto => dto.Balance,
-                            map => map.MapFrom(src => src.Balance))
-                .ForMember(
                             dto => dto.BalanceChanges,
                             map => map.MapFrom(src => src.BalanceChanges))
                 ;

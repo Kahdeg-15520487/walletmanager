@@ -52,12 +52,12 @@ else
                     <td>@(FormatBalanceValue(b.Amount))</td>
                     <td>@b.Reason</td>
                     <td>@b.Date.ToLocalTime().ToShortDateString()</td>
-                    <td><button onclick="@(()=>DeleteBalance(b.Id))">X</button></td>
+                    <td><button onclick="@(()=>DeleteBalance(b.Id))">X</button>  <button onclick="@(()=>EditBalance(b.Id))">+</button></td>
                 </tr>
             }
             <tr>
                 <td class="@GetCellColor(newBalance.ChangeType)" @onclick="() => ToggleChangeType()">
-                    <input type="checkbox" @bind="@newBalance.ChangeType" />
+                    <input type="checkbox" @bind="@newBalance.ChangeType"  />
                 </td>
                 <td><input type="number" @bind="@newBalance.Amount" /></td>
                 <td><input type="text" style="width: 100%; height: 100%;" @bind="@newBalance.Reason" /></td>
@@ -99,6 +99,12 @@ else
         await Http.PostAsJsonAsync<BalanceChangeModel>($"api/wallet/{walletId}/balance", newBalance);
         Wallet = (await Http.GetFromJsonAsync<WalletResponseDto>($"api/wallet/{walletId}"));
         Balances = (await Http.GetFromJsonAsync<BalanceChangeModel[]>($"api/wallet/{walletId}/balance")).ToArray();
+        StateHasChanged();
+    }
+
+    private async void EditBalance(Guid id)
+    {
+        newBalance = (await Http.GetFromJsonAsync<BalanceChangeModel>($"api/balance/{id}"));
         StateHasChanged();
     }
 

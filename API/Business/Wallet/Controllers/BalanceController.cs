@@ -17,22 +17,28 @@ namespace API.Business.Wallet.Controllers
         }
 
         [HttpGet("wallet/{walletId}/balance")]
-        public IEnumerable<BalanceChangeDto> Get([FromRoute] Guid walletId)
+        public IEnumerable<BalanceChangeDto> GetByWallet([FromRoute] Guid walletId)
         {
-            return balanceService.GetByWallet(walletId);
+            return balanceService.GetByWallet(HttpContext.GetUserIdpId(), walletId);
+        }
+
+        [HttpGet("balance/{balanceId}")]
+        public BalanceChangeDto Get([FromRoute] Guid balanceId)
+        {
+            return balanceService.GetBalanceChange(HttpContext.GetUserIdpId(), balanceId);
         }
 
         [HttpPost("wallet/{walletId}/balance")]
         public async Task<BalanceChangeDto> Add([FromRoute] Guid walletId, [FromBody] BalanceChangeCreateRequestDto dto)
         {
             dto.WalletId = walletId;
-            return await balanceService.Create(dto);
+            return await balanceService.Create(HttpContext.GetUserIdpId(), dto);
         }
 
         [HttpDelete("balance/{balanceId}")]
-        public ActionResult Delete(Guid balanceId)
+        public ActionResult Delete([FromRoute] Guid balanceId)
         {
-            return balanceService.Delete(balanceId) ? this.Ok() : this.NotFound();
+            return balanceService.Delete(HttpContext.GetUserIdpId(), balanceId) ? this.Ok() : this.NotFound();
         }
     }
 }

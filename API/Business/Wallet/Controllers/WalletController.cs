@@ -21,7 +21,7 @@ namespace API.Business.Wallet.Controllers
 
         [HttpGet]
         public ActionResult Get()
-        {
+        { 
             try
             {
                 return Ok(WalletService.GetAllByUserIdpId(HttpContext.GetUserIdpId()));
