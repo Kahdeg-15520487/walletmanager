@@ -49,7 +49,10 @@
 
         public bool Delete(Guid balanceId)
         {
-            context.BalanceChanges.Remove(context.BalanceChanges.First(x => x.Id == balanceId));
+            var bal = context.BalanceChanges.First(x => x.Id == balanceId);
+            var wallet = context.Wallets.First(x => x.Id == bal.WalletId);
+            context.BalanceChanges.Remove(bal);
+            wallet.Balance = wallet.Balance + (bal.Type ? -1 : 1) * bal.Amount;
             return context.SaveChanges() != 0;
         }
 

@@ -2,6 +2,7 @@
 @attribute [Authorize]
 @using Microsoft.Extensions.Configuration
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using UI.DTOs
 @inject HttpClient Http
 @inject NavigationManager NavManager
 
@@ -71,12 +72,4 @@ else
     }
 
     private float Totals() => Wallets.Sum(w => w.Balance);
-
-    public class WalletResponseDto
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public float Balance { get; set; }
-        public string Note { get; set; }
-    }
 }

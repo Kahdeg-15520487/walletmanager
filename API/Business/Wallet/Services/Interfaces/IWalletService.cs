@@ -7,7 +7,7 @@ namespace API.Business.Wallet.Services.Interfaces
         WalletDto GetById(string userIdpId, Guid id);
         IEnumerable<WalletDto> GetAllByUserIdpId(string userIdpId);
         Task<WalletDto> Create(WalletCreateRequestDto dto, string userIdpId);
-        bool Delete(Guid id);
+        Task<bool> Delete(Guid walletId, string userIdpId);
         bool Update(WalletDto dto);
     }
 }

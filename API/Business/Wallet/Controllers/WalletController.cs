@@ -3,6 +3,7 @@ using API.Business.Wallet.Services.Interfaces;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 
 namespace API.Business.Wallet.Controllers
 {
@@ -35,16 +36,22 @@ namespace API.Business.Wallet.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public WalletDto GetById(Guid id)
+        [HttpGet("{walletId}")]
+        public WalletDto GetById(Guid walletId)
         {
-            return WalletService.GetById(HttpContext.GetUserIdpId(), id);
+            return WalletService.GetById(HttpContext.GetUserIdpId(), walletId);
         }
 
         [HttpPost]
         public async Task<WalletDto> CreateWallet([FromBody] WalletCreateRequestDto dto)
         {
             return await WalletService.Create(dto, HttpContext.GetUserIdpId());
+        }
+
+        [HttpDelete("{walletId}")]
+        public async Task<bool> HideWallet(Guid walletId)
+        {
+            return await WalletService.Delete(walletId, HttpContext.GetUserIdpId());
         }
     }
 }

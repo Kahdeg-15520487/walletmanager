@@ -76,6 +76,9 @@ namespace API.Migrations
                     b.Property<float>("Balance")
                         .HasColumnType("real");
 
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -95,7 +98,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.DAL.Models.BalanceChange", b =>
                 {
                     b.HasOne("API.DAL.Models.Wallet", "Wallet")
-                        .WithMany()
+                        .WithMany("BalanceChanges")
                         .HasForeignKey("WalletId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -117,6 +120,11 @@ namespace API.Migrations
             modelBuilder.Entity("API.DAL.Models.User", b =>
                 {
                     b.Navigation("Wallets");
+                });
+
+            modelBuilder.Entity("API.DAL.Models.Wallet", b =>
+                {
+                    b.Navigation("BalanceChanges");
                 });
 #pragma warning restore 612, 618
         }

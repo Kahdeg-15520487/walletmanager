@@ -33,6 +33,7 @@
                 Name = dto.Name,
                 Note = dto.Note,
                 UserId = user.Id,
+                IsHidden = false,
             };
             var e = await context.Wallets.AddAsync(wallet);
             if (await context.SaveChangesAsync() > 0)
@@ -42,15 +43,31 @@
             return null;
         }
 
-        public bool Delete(Guid id)
+        public async Task<bool> Delete(Guid id, string userIdpId)
         {
-            context.Wallets.Remove(context.Wallets.First(x => x.Id == id));
-            return context.SaveChanges() != 0;
+            var user = context.Users.FirstOrDefault(u => u.IdpId == userIdpId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var wallet = context.Wallets.FirstOrDefault(x => x.Id == id && x.UserId == user.Id);
+            if (wallet == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            wallet.IsHidden = true;
+            return (await context.SaveChangesAsync()) != 0;
         }
 
         public WalletDto GetById(string userIdpId, Guid id)
         {
-            return this.mapper.Map<WalletDto>(context.Wallets.First(s => s.Id == id));
+            var user = context.Users.FirstOrDefault(u => u.IdpId == userIdpId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException();
+            }
+            return this.mapper.Map<WalletDto>(context.Wallets.First(w => w.Id == id && w.UserId == user.Id));
         }
 
         public IEnumerable<WalletDto> GetAllByUserIdpId(string userIdpId)
@@ -60,7 +77,7 @@
             {
                 throw new KeyNotFoundException();
             }
-            return this.mapper.ProjectTo<WalletDto>(context.Wallets.Where(w => w.UserId == user.Id));
+            return this.mapper.ProjectTo<WalletDto>(context.Wallets.Where(w => !w.IsHidden && w.UserId == user.Id));
         }
 
         public bool Update(WalletDto dto)

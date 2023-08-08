@@ -2,11 +2,21 @@
 @attribute [Authorize]
 @using Microsoft.Extensions.Configuration
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using UI.DTOs
 @inject HttpClient Http
 
-<PageTitle>Wallet Balances</PageTitle>
+<style>
+    /* Increase specificity of the selector */
+    table.table td.cell-red {
+        background-color: red;
+    }
 
-<h1>Wallet Balances</h1>
+    table.table td.cell-green {
+        background-color: green;
+    }
+</style>
+
+<PageTitle>Wallet Balances</PageTitle>
 
 @if (Balances == null)
 {
@@ -14,11 +24,14 @@
 }
 else
 {
+    <h1>Wallet @Wallet.Name Balances</h1>
+
+    <h3>Totals: @(FormatBalanceValue(Wallet.Balance)) VND</h3>
     <table class="table">
         <colgroup>
             <col span="1" style="width: 10%;">
-            <col span="1" style="width: 50%;">
             <col span="1" style="width: 25%;">
+            <col span="1" style="width: 50%;">
             <col span="1" style="width: 15%;">
         </colgroup>
 
@@ -36,17 +49,19 @@ else
             {
                 <tr>
                     <td>@(b.ChangeType?"+" :"-")</td>
-                    <td>@b.Amount</td>
+                    <td>@(FormatBalanceValue(b.Amount))</td>
                     <td>@b.Reason</td>
                     <td>@b.Date.ToLocalTime().ToShortDateString()</td>
                     <td><button onclick="@(()=>DeleteBalance(b.Id))">X</button></td>
                 </tr>
             }
             <tr>
-                <td><input type="checkbox" @bind="@newBalance.ChangeType" />@(newBalance.ChangeType ? "+" : "-")</td>
+                <td class="@GetCellColor(newBalance.ChangeType)" @onclick="() => ToggleChangeType()">
+                    <input type="checkbox" @bind="@newBalance.ChangeType" />
+                </td>
                 <td><input type="number" @bind="@newBalance.Amount" /></td>
-                <td><input type="text" @bind="@newBalance.Reason" /></td>
-                <td>@DateTime.Now.ToShortDateString()</td>
+                <td><input type="text" style="width: 100%; height: 100%;" @bind="@newBalance.Reason" /></td>
+                <td><input type="date" @bind="@newBalance.Date" /></td>
             </tr>
             <tr>
                 <td><button @onclick="@HandleValidSubmit">Submit</button></td>
@@ -62,19 +77,27 @@ else
     [Parameter]
     public Guid walletId { get; set; }
 
+    private WalletResponseDto Wallet;
     private BalanceChangeModel[] Balances;
     private BalanceChangeModel newBalance = new();
+    private static System.Globalization.NumberFormatInfo numberFormat = new System.Globalization.NumberFormatInfo
+    {
+        NumberGroupSeparator = ",", // Customize the thousands separator
+    };
 
     protected override async Task OnInitializedAsync()
     {
+        Wallet = (await Http.GetFromJsonAsync<WalletResponseDto>($"api/wallet/{walletId}"));
+        Console.WriteLine(Wallet.Balance);
         Balances = (await Http.GetFromJsonAsync<BalanceChangeModel[]>($"api/wallet/{walletId}/balance")).ToArray();
+        newBalance.Date = DateTime.Now;
     }
 
     private async void HandleValidSubmit()
     {
         Console.WriteLine(newBalance.Amount);
-        newBalance.Date = DateTime.Now;
         await Http.PostAsJsonAsync<BalanceChangeModel>($"api/wallet/{walletId}/balance", newBalance);
+        Wallet = (await Http.GetFromJsonAsync<WalletResponseDto>($"api/wallet/{walletId}"));
         Balances = (await Http.GetFromJsonAsync<BalanceChangeModel[]>($"api/wallet/{walletId}/balance")).ToArray();
         StateHasChanged();
     }
@@ -82,16 +105,29 @@ else
     private async void DeleteBalance(Guid id)
     {
         await Http.DeleteAsync($"api/balance/{id}");
+        Wallet = (await Http.GetFromJsonAsync<WalletResponseDto>($"api/wallet/{walletId}"));
         Balances = (await Http.GetFromJsonAsync<BalanceChangeModel[]>($"api/wallet/{walletId}/balance")).ToArray();
         StateHasChanged();
     }
 
-    public class BalanceChangeModel
+    private string GetCellColor(bool changeType) {
+        if (changeType)
+        {
+            return "cell-green";
+        }
+        else
+        {
+            return "cell-red";
+        }
+    }
+
+    private void ToggleChangeType()
     {
-        public Guid Id { get; set; }
-        public bool ChangeType { get; set; }
-        public double Amount { get; set; }
-        public string Reason { get; set; }
-        public DateTime Date { get; set; }
+        newBalance.ChangeType = !newBalance.ChangeType;
+    }
+
+    private string FormatBalanceValue(double bal)
+    {
+        return bal.ToString("N0", numberFormat);
     }
 }
