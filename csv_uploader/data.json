@@ -1,0 +1,386 @@
+[
+  {
+    "ChangeType": true,
+    "Amount": 1000,
+    "Reason": "Monthly Salary",
+    "Date": "2023-08-01"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 150,
+    "Reason": "Grocery Shopping",
+    "Date": "2023-08-02"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 50,
+    "Reason": "Dining Out",
+    "Date": "2023-08-03"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 200,
+    "Reason": "Freelance Gig Payment",
+    "Date": "2023-08-05"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 30,
+    "Reason": "Movie Night",
+    "Date": "2023-08-06"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 80,
+    "Reason": "Clothing Shopping",
+    "Date": "2023-08-07"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 300,
+    "Reason": "Side Hustle Earnings",
+    "Date": "2023-08-10"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 200,
+    "Reason": "Utility Bill",
+    "Date": "2023-08-15"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 500,
+    "Reason": "Bonus Payment",
+    "Date": "2023-08-17"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 70,
+    "Reason": "Entertainment",
+    "Date": "2023-08-20"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 25,
+    "Reason": "Gym Membership",
+    "Date": "2023-08-22"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 150,
+    "Reason": "Babysitting Job",
+    "Date": "2023-08-25"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 40,
+    "Reason": "Dining Out",
+    "Date": "2023-08-28"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 600,
+    "Reason": "Online Sales",
+    "Date": "2023-08-30"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 750,
+    "Reason": "Freelance Project Payment",
+    "Date": "2023-09-02"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 100,
+    "Reason": "Groceries",
+    "Date": "2023-09-05"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 20,
+    "Reason": "Coffee Shop",
+    "Date": "2023-09-07"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 350,
+    "Reason": "Tutoring Income",
+    "Date": "2023-09-10"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 45,
+    "Reason": "Dinner with Friends",
+    "Date": "2023-09-12"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 1200,
+    "Reason": "Rent Payment",
+    "Date": "2023-09-15"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 60,
+    "Reason": "Shopping - Electronics",
+    "Date": "2023-09-18"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 180,
+    "Reason": "Dog Walking Services",
+    "Date": "2023-09-20"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 25,
+    "Reason": "Movie Tickets",
+    "Date": "2023-09-22"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 500,
+    "Reason": "Web Design Project Payment",
+    "Date": "2023-09-25"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 800,
+    "Reason": "Consulting Fee",
+    "Date": "2023-10-01"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 75,
+    "Reason": "Gasoline",
+    "Date": "2023-10-03"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 18,
+    "Reason": "Lunch at Work",
+    "Date": "2023-10-05"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 250,
+    "Reason": "Garage Sale Income",
+    "Date": "2023-10-08"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 30,
+    "Reason": "Movie Night",
+    "Date": "2023-10-10"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 450,
+    "Reason": "Photography Gig Payment",
+    "Date": "2023-10-12"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 90,
+    "Reason": "Clothing Shopping",
+    "Date": "2023-10-15"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 350,
+    "Reason": "Music Lessons Payment",
+    "Date": "2023-10-18"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 40,
+    "Reason": "Dining Out",
+    "Date": "2023-10-20"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 600,
+    "Reason": "Writing Project Payment",
+    "Date": "2023-10-22"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 120,
+    "Reason": "Home Repairs",
+    "Date": "2023-10-25"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 1500,
+    "Reason": "Bonus from Work",
+    "Date": "2023-10-28"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 50,
+    "Reason": "Concert Tickets",
+    "Date": "2023-10-30"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 200,
+    "Reason": "Babysitting Income",
+    "Date": "2023-11-02"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 65,
+    "Reason": "Groceries",
+    "Date": "2023-11-05"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 1000,
+    "Reason": "Freelance Design Payment",
+    "Date": "2023-11-08"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 25,
+    "Reason": "Coffee Shop",
+    "Date": "2023-11-10"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 300,
+    "Reason": "Language Tutoring Income",
+    "Date": "2023-11-12"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 55,
+    "Reason": "Dinner with Friends",
+    "Date": "2023-11-15"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 700,
+    "Reason": "Software Development Payment",
+    "Date": "2023-11-18"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 850,
+    "Reason": "Consulting Project Payment",
+    "Date": "2023-12-01"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 80,
+    "Reason": "Holiday Gifts",
+    "Date": "2023-12-03"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 15,
+    "Reason": "Snacks",
+    "Date": "2023-12-05"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 280,
+    "Reason": "Art Commission Payment",
+    "Date": "2023-12-08"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 25,
+    "Reason": "Movie Night",
+    "Date": "2023-12-10"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 500,
+    "Reason": "Online Course Refund",
+    "Date": "2023-12-12"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 75,
+    "Reason": "Home Decor",
+    "Date": "2023-12-15"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 400,
+    "Reason": "Event Photography Payment",
+    "Date": "2023-12-18"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 35,
+    "Reason": "Dining Out",
+    "Date": "2023-12-20"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 750,
+    "Reason": "Graphic Design Payment",
+    "Date": "2023-12-22"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 110,
+    "Reason": "Holiday Party Supplies",
+    "Date": "2023-12-25"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 1200,
+    "Reason": "Year-End Bonus",
+    "Date": "2023-12-28"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 60,
+    "Reason": "Concert Tickets",
+    "Date": "2023-12-30"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 180,
+    "Reason": "Pet Sitting Income",
+    "Date": "2024-01-02"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 70,
+    "Reason": "Groceries",
+    "Date": "2024-01-05"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 950,
+    "Reason": "Web Development Payment",
+    "Date": "2024-01-08"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 20,
+    "Reason": "Coffee Shop",
+    "Date": "2024-01-10"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 320,
+    "Reason": "Private Tutoring Income",
+    "Date": "2024-01-12"
+  },
+  {
+    "ChangeType": false,
+    "Amount": 50,
+    "Reason": "Dinner with Friends",
+    "Date": "2024-01-15"
+  },
+  {
+    "ChangeType": true,
+    "Amount": 670,
+    "Reason": "App Development Payment",
+    "Date": "2024-01-18"
+  }
+]

@@ -3,7 +3,9 @@
     using API.Business.User.DTOs;
     using API.Business.User.Services.Interfaces;
     using API.DAL;
+
     using AutoMapper;
+
     using System.Threading.Tasks;
 
     public class UserService : IUserService
@@ -33,6 +35,13 @@
             {
                 return null;
             }
+        }
+
+        public async Task<bool> UpdateUserName(string userIdpId, string userName)
+        {
+            await context.SaveChangesAsync();
+
+            return false;
         }
 
         public async Task<UserDto> GetByIdpId(string userIdpId)

@@ -14,6 +14,10 @@
     table.table td.cell-green {
         background-color: green;
     }
+
+    table.table td.amount {
+        text-align: right;
+    }
 </style>
 
 <PageTitle>Wallet Balances</PageTitle>
@@ -26,7 +30,7 @@ else
 {
     <h1>Wallet @Wallet.Name Balances</h1>
 
-    <h3>Totals: @(FormatBalanceValue(Wallet.Balance)) VND</h3>
+    <h3>Totals: @(FormatBalanceValue(Wallet.Balance)) VNĐw</h3>
     <table class="table">
         <colgroup>
             <col span="1" style="width: 10%;">
@@ -49,7 +53,7 @@ else
             {
                 <tr>
                     <td>@(b.ChangeType?"+" :"-")</td>
-                    <td>@(FormatBalanceValue(b.Amount))</td>
+                    <td class="right-align">@(FormatBalanceValue(b.Amount)) VNĐ</td>
                     <td>@b.Reason</td>
                     <td>@b.Date.ToLocalTime().ToShortDateString()</td>
                     <td><button onclick="@(()=>DeleteBalance(b.Id))">X</button>  <button onclick="@(()=>EditBalance(b.Id))">+</button></td>

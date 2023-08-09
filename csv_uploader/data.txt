@@ -1,0 +1,64 @@
+true, 1000.00, Monthly Salary, 2023-08-01
+false, 150.00, Grocery Shopping, 2023-08-02
+false, 50.00, Dining Out, 2023-08-03
+true, 200.00, Freelance Gig Payment, 2023-08-05
+false, 30.00, Movie Night, 2023-08-06
+false, 80.00, Clothing Shopping, 2023-08-07
+true, 300.00, Side Hustle Earnings, 2023-08-10
+false, 200.00, Utility Bill, 2023-08-15
+true, 500.00, Bonus Payment, 2023-08-17
+false, 70.00, Entertainment, 2023-08-20
+false, 25.00, Gym Membership, 2023-08-22
+true, 150.00, Babysitting Job, 2023-08-25
+false, 40.00, Dining Out, 2023-08-28
+true, 600.00, Online Sales, 2023-08-30
+true, 750.00, Freelance Project Payment, 2023-09-02
+false, 100.00, Groceries, 2023-09-05
+false, 20.00, Coffee Shop, 2023-09-07
+true, 350.00, Tutoring Income, 2023-09-10
+false, 45.00, Dinner with Friends, 2023-09-12
+true, 1200.00, Rent Payment, 2023-09-15
+false, 60.00, Shopping - Electronics, 2023-09-18
+true, 180.00, Dog Walking Services, 2023-09-20
+false, 25.00, Movie Tickets, 2023-09-22
+true, 500.00, Web Design Project Payment, 2023-09-25
+true, 800.00, Consulting Fee, 2023-10-01
+false, 75.00, Gasoline, 2023-10-03
+false, 18.00, Lunch at Work, 2023-10-05
+true, 250.00, Garage Sale Income, 2023-10-08
+false, 30.00, Movie Night, 2023-10-10
+true, 450.00, Photography Gig Payment, 2023-10-12
+false, 90.00, Clothing Shopping, 2023-10-15
+true, 350.00, Music Lessons Payment, 2023-10-18
+false, 40.00, Dining Out, 2023-10-20
+true, 600.00, Writing Project Payment, 2023-10-22
+false, 120.00, Home Repairs, 2023-10-25
+true, 1500.00, Bonus from Work, 2023-10-28
+false, 50.00, Concert Tickets, 2023-10-30
+true, 200.00, Babysitting Income, 2023-11-02
+false, 65.00, Groceries, 2023-11-05
+true, 1000.00, Freelance Design Payment, 2023-11-08
+false, 25.00, Coffee Shop, 2023-11-10
+true, 300.00, Language Tutoring Income, 2023-11-12
+false, 55.00, Dinner with Friends, 2023-11-15
+true, 700.00, Software Development Payment, 2023-11-18
+true, 850.00, Consulting Project Payment, 2023-12-01
+false, 80.00, Holiday Gifts, 2023-12-03
+false, 15.00, Snacks, 2023-12-05
+true, 280.00, Art Commission Payment, 2023-12-08
+false, 25.00, Movie Night, 2023-12-10
+true, 500.00, Online Course Refund, 2023-12-12
+false, 75.00, Home Decor, 2023-12-15
+true, 400.00, Event Photography Payment, 2023-12-18
+false, 35.00, Dining Out, 2023-12-20
+true, 750.00, Graphic Design Payment, 2023-12-22
+false, 110.00, Holiday Party Supplies, 2023-12-25
+true, 1200.00, Year-End Bonus, 2023-12-28
+false, 60.00, Concert Tickets, 2023-12-30
+true, 180.00, Pet Sitting Income, 2024-01-02
+false, 70.00, Groceries, 2024-01-05
+true, 950.00, Web Development Payment, 2024-01-08
+false, 20.00, Coffee Shop, 2024-01-10
+true, 320.00, Private Tutoring Income, 2024-01-12
+false, 50.00, Dinner with Friends, 2024-01-15
+true, 670.00, App Development Payment, 2024-01-18
